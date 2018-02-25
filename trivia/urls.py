@@ -13,9 +13,19 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import url, include
 from django.contrib import admin
-from django.urls import path
+from django.views.generic import RedirectView
+from rest_framework.schemas import get_schema_view
+
+schema_view = get_schema_view(title='Quiz API')
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
+    url(r'$^', RedirectView.as_view(url='api/quiz-app')),
+    url(r'^api-auth/', include('rest_framework.urls')),
+    url(r'^schema/$', schema_view),
+
+    url(r'^api/quiz-app/', include('apps.quiz.urls'), name='quiz-api'),
 ]
