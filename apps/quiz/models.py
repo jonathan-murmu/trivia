@@ -23,7 +23,8 @@ class Question(models.Model):
 
 class Objective(models.Model):
     """Objectives/Choices for a question."""
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.ForeignKey(
+        Question, on_delete=models.CASCADE, related_name='objectives')
     objective_text = models.CharField(max_length=255)
     is_answer = models.BooleanField(default=False)
 
