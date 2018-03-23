@@ -1,6 +1,6 @@
 from django.db import models
 
-from trivia.settings.base import AUTH_USER_MODEL
+from trivia.config.base import AUTH_USER_MODEL
 
 
 class Quiz(models.Model):

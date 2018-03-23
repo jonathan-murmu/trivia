@@ -52,7 +52,7 @@ def read_env():
 
 read_env()
 
-# Quick-start development settings - unsuitable for production
+# Quick-start development config - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
