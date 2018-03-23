@@ -8,10 +8,12 @@ router = DefaultRouter()
 router.register(r'quiz', views.QuizViewSet)
 router.register(r'question', views.QuestionViewSet)
 router.register(r'objectives', views.ObjectiveViewSet)
+router.register(r'results', views.PlayViewSet)
 
 # The API URLs are now determined automatically by the router.
 urlpatterns = [
     url(r'^', include(router.urls)),
-    url(r'play/(?P<quiz>[0-9])/', views.PlayView.as_view(), name='play')
+    url(r'play/(?P<quiz>[0-9])/', views.SafeQuestionView.as_view(),
+        name='safe_questions')
 ]
 

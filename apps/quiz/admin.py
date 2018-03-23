@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.quiz.models import Quiz, Question, Objective
+from apps.quiz.models import Quiz, Question, Objective, PlayQuiz
 
 
 class QuestionAdmin(admin.ModelAdmin):
@@ -27,6 +27,32 @@ class ObjectiveAdmin(admin.ModelAdmin):
     get_quiz.short_description = 'Quiz'
     get_quiz.admin_order_field = 'quiz__quiz_name'
 
+
+class PlayQuizAdmin(admin.ModelAdmin):
+    list_display = ('get_user', 'get_quiz', 'get_question', 'get_user_answer',
+                    'is_correct')
+    def get_user(self, obj):
+        return obj.user.username
+
+    def get_quiz(self, obj):
+        return obj.quiz.quiz_name
+
+    def get_question(self, obj):
+        return obj.question.question_text
+
+    def get_user_answer(self, obj):
+        return obj.user_answer.objective_text
+
+    get_question.short_description = 'Question'
+    get_question.admin_order_field = 'question__question_text'
+    get_quiz.short_description = 'Quiz'
+    get_quiz.admin_order_field = 'quiz__quiz_name'
+    get_user_answer.short_description = 'User\'s Answer'
+    get_user.admin_order_field = 'user_answer__objective_text'
+    get_user.short_description = 'Username'
+    get_user.admin_order_field = 'user__username'
+
 admin.site.register(Quiz)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Objective, ObjectiveAdmin)
+admin.site.register(PlayQuiz, PlayQuizAdmin)

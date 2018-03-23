@@ -2,9 +2,10 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 
 from rest_framework import permissions, viewsets, generics
-from apps.quiz.models import Quiz, Question, Objective
+from apps.quiz.models import Quiz, Question, Objective, PlayQuiz
 from apps.quiz.serializers import QuizSerializer, \
-    QuestionSerializer, ObjectiveSerializer, PlaySerializer
+    QuestionSerializer, ObjectiveSerializer, SafeQuestionSerializer, \
+    PlayQuizSerializer
 from apps.quiz.permissions import IsAdminOrReadOnly
 
 
@@ -26,11 +27,13 @@ class ObjectiveViewSet(viewsets.ModelViewSet):
     queryset = Objective.objects.all()
     serializer_class = ObjectiveSerializer
 
-class PlayView(generics.ListAPIView):
-    """Play the quiz.
 
+class SafeQuestionView(generics.ListAPIView):
+    """Questions for the quiz.
+
+    Display questions with objective, no answers.
     get method: display the questions and objective of the quiz."""
-    serializer_class = PlaySerializer
+    serializer_class = SafeQuestionSerializer
 
     def get(self, request, *args, **kwargs):
        return self.list(request, *args, **kwargs)
@@ -38,3 +41,11 @@ class PlayView(generics.ListAPIView):
     def get_queryset(self):
         quiz = self.kwargs['quiz']
         return Question.objects.filter(quiz__pk=quiz)
+
+
+class PlayViewSet(viewsets.ModelViewSet):
+    """Api to play the quiz.
+
+    post method submits the quiz answers by particular user."""
+    queryset = PlayQuiz.objects.all()
+    serializer_class = PlayQuizSerializer

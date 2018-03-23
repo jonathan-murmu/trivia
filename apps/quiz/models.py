@@ -1,5 +1,7 @@
 from django.db import models
 
+from trivia.settings.base import AUTH_USER_MODEL
+
 
 class Quiz(models.Model):
     """Model for storing quiz."""
@@ -30,3 +32,22 @@ class Objective(models.Model):
 
     def __str__(self):
         return self.objective_text
+
+
+class PlayQuiz(models.Model):
+    """Data to hold the quiz data."""
+    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.SET_NULL,
+                             null=True)
+    quiz = models.ForeignKey(Quiz, on_delete=models.SET_NULL,
+                             null=True)
+    question = models.ForeignKey(Question, on_delete=models.SET_NULL,
+                                 null=True)
+    user_answer = models.ForeignKey(Objective, on_delete=models.SET_NULL,
+                                    null=True)
+    is_correct = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        """the is correct field"""
+        if self.user_answer:
+            self.is_correct = self.user_answer.is_answer
+        super(PlayQuiz, self).save(*args, **kwargs)

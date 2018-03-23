@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from apps.quiz.models import Objective, Question, Quiz
+from apps.quiz.models import Objective, Question, Quiz, PlayQuiz
 
 
 class QuizSerializer(serializers.HyperlinkedModelSerializer):
@@ -32,7 +32,7 @@ class SafeObjectiveSerializer(serializers.ModelSerializer):
         fields = ('id', 'url', 'question', 'objective_text',)
 
 
-class PlaySerializer(serializers.HyperlinkedModelSerializer):
+class SafeQuestionSerializer(serializers.HyperlinkedModelSerializer):
     """Question with choices for a particular quiz."""
     objectives = SafeObjectiveSerializer(many=True)
 
@@ -41,3 +41,12 @@ class PlaySerializer(serializers.HyperlinkedModelSerializer):
         depth = 1
         fields = ('id', 'url', 'question_text', 'is_subjective',
                   'objectives')
+
+
+class PlayQuizSerializer(serializers.ModelSerializer):
+    """Playing the quiz."""
+
+    class Meta:
+        model = PlayQuiz
+        # depth = 1
+        fields = '__all__'

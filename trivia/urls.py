@@ -27,5 +27,8 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls')),
     url(r'^schema/$', schema_view),
 
+    url(r'^api/', include('apps.authentication.urls',
+                          namespace='authentication',
+                          )),
     url(r'^api/quiz-app/', include('apps.quiz.urls'), name='quiz-api'),
 ]
