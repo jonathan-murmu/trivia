@@ -1,2 +1,2 @@
 """Staging settings."""
-from .settings.staging import *
+from trivia.settings.staging import *
