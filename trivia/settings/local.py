@@ -1,1 +1,1 @@
-from trivia.settings.base import *
+from .base import *
