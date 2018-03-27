@@ -1,1 +1,1 @@
-web: gunicorn trivia.wsgi --log-file -
+web: gunicorn trivia.wsgi -b 0.0.0.0:$PORT
