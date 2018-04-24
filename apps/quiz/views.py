@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 
 from rest_framework import permissions, viewsets, generics
+from apps.quiz.mixins import CreateListMixin
 from apps.quiz.models import Quiz, Question, Objective, PlayQuiz
 from apps.quiz.serializers import QuizSerializer, \
     QuestionSerializer, ObjectiveSerializer, SafeQuestionSerializer, \
@@ -43,7 +44,7 @@ class SafeQuestionView(generics.ListAPIView):
         return Question.objects.filter(quiz__pk=quiz)
 
 
-class PlayViewSet(viewsets.ModelViewSet):
+class PlayViewSet(CreateListMixin, viewsets.ModelViewSet):
     """Api to play the quiz.
 
     post method submits the quiz answers by particular user."""
