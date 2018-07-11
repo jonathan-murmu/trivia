@@ -109,6 +109,15 @@ class User(AbstractBaseUser, PermissionsMixin):
         """
         return self._generate_jwt_token()
 
+    @property
+    def exp(self):
+        try:
+            payload = jwt.decode(self.token, settings.SECRET_KEY)
+            value = payload['exp']
+        except:
+            value = None
+        return value
+
     def get_full_name(self):
         """
         This method is required by Django for things like handling emails.
